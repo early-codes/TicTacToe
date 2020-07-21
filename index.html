@@ -1,0 +1,112 @@
+
+
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>Tic Tac Toe</title>
+        <meta charset="UTF-8"/>
+    </head>
+
+    <body>
+        
+        <header>
+            <h1>Tic Tac Toe</h1>
+        </header>
+
+        <div id="players">
+            <div id="player1div">
+                <label style="margin: 10px;">Player1</label><br>
+                <input style="margin: 10px;" type="text" id="player1Text">
+            </div>
+            <div id="player2div">
+                <label style="margin: 10px;">Player2</label><br>
+                <input style="margin: 10px;" type="text" id="player2Text">
+            </div>
+        </div>
+
+        <div id="table">
+            <button class="gameButtons" id="cell0" onclick="played('cell0')"></button>
+            <button class="gameButtons" id="cell1" onclick="played('cell1')"></button>
+            <button class="gameButtons" id="cell2" onclick="played('cell2')"></button>
+            <button class="gameButtons" id="cell3" onclick="played('cell3')"></button>
+            <button class="gameButtons" id="cell4" onclick="played('cell4')"></button>
+            <button class="gameButtons" id="cell5" onclick="played('cell5')"></button>
+            <button class="gameButtons" id="cell6" onclick="played('cell6')"></button>
+            <button class="gameButtons" id="cell7" onclick="played('cell7')"></button>
+            <button class="gameButtons" id="cell8" onclick="played('cell8')"></button>
+        </div>
+
+
+    </body>
+</html>
+<style>
+    header {
+        text-align: center;
+        margin: 3% auto;
+    }
+    #players {      
+        height: 20px;
+        width: 70%;
+        margin: 0 auto;
+    }
+    #players div {
+        position: relative;
+        display: inline-block;
+        padding: 10px;
+    }
+    #players #player2div {
+        position: absolute;
+        right: 10%;   
+    }
+    #table {
+        height: 490px;
+        width: 500px;
+        background-color: aqua;
+        margin: 3% auto;
+    }
+    .gameButtons {
+        display: inline-block;
+        font-size: 90px;
+        position: relative; 
+        margin: 5px; 
+        width: 153px; 
+        height: 153px; 
+        background-color: red;
+        text-align: center;
+        vertical-align: middle;
+    }
+
+</style>
+
+<script>
+
+let turn = 0;
+
+const player = (name) => {
+    var won = 0;
+    const win = () => {
+        obj.won += 1;
+    }
+    const obj = {name, won, win}
+    return obj;
+};
+
+
+const played = (id) => {
+
+    let clickedCell = document.getElementById(id);
+    if (clickedCell.textContent == "") {
+        if (turn % 2 == 1) {
+            clickedCell.textContent = "O";
+        }    
+        else {
+            clickedCell.textContent = "X";        
+        }
+    turn +=1;
+    }
+} 
+
+
+ 
+</script>
