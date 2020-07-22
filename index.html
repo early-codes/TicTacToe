@@ -16,12 +16,16 @@
 
         <div id="players">
             <div id="player1div">
-                <label style="margin: 10px;">Player1</label><br>
-                <input style="margin: 10px;" type="text" id="player1Text">
+                <label>1st Players Name</label><br>
+                <input type="text" id="player1Text"><br>
+                <br>
+                <label id="player1ScoreLabel">Score = 0</label>
             </div>
             <div id="player2div">
-                <label style="margin: 10px;">Player2</label><br>
-                <input style="margin: 10px;" type="text" id="player2Text">
+                <label>2nd Players Name</label><br>
+                <input type="text" id="player2Text"><br>
+                <br>
+                <label id="player2ScoreLabel">Score = 0</label>
             </div>
         </div>
 
@@ -49,6 +53,9 @@
         height: 20px;
         width: 70%;
         margin: 0 auto;
+    }
+    #players * {
+        margin: 10px;
     }
     #players div {
         position: relative;
@@ -92,9 +99,13 @@ const player = (name) => {
     return obj;
 };
 
+const player1 = player("")
+const player2 = player("")
 
 const played = (id) => {
-
+    if (player1.name == "" || player2.name == "") {
+        setNames();
+    }
     let clickedCell = document.getElementById(id);
     if (clickedCell.textContent == "") {
         if (turn % 2 == 1) {
@@ -104,9 +115,87 @@ const played = (id) => {
             clickedCell.textContent = "X";        
         }
     turn +=1;
+    checkWin();
     }
 } 
 
+const checkWin = (() => {
+    if (document.getElementById("cell0").textContent == "X" && document.getElementById("cell1").textContent == "X" && document.getElementById("cell2").textContent == "X" ||
+    document.getElementById("cell3").textContent == "X" && document.getElementById("cell4").textContent == "X" && document.getElementById("cell5").textContent == "X" ||
+    document.getElementById("cell6").textContent == "X" && document.getElementById("cell7").textContent == "X" && document.getElementById("cell8").textContent == "X" ||
+    document.getElementById("cell0").textContent == "X" && document.getElementById("cell4").textContent == "X" && document.getElementById("cell8").textContent == "X" ||
+    document.getElementById("cell0").textContent == "X" && document.getElementById("cell3").textContent == "X" && document.getElementById("cell6").textContent == "X" ||
+    document.getElementById("cell1").textContent == "X" && document.getElementById("cell4").textContent == "X" && document.getElementById("cell7").textContent == "X" ||
+    document.getElementById("cell2").textContent == "X" && document.getElementById("cell5").textContent == "X" && document.getElementById("cell8").textContent == "X" ||
+    document.getElementById("cell2").textContent == "X" && document.getElementById("cell4").textContent == "X" && document.getElementById("cell6").textContent == "X") {
+        player1.win();
+        (player1.name == "") ? alert("Player1 Won") : alert(player1.name + " Won!");
+        document.getElementById("player1ScoreLabel").textContent = `${player1.name} Score= ${player1.won}`;
+        matchOver();
+    }
+    else if (document.getElementById("cell0").textContent == "X" && document.getElementById("cell1").textContent == "X" && document.getElementById("cell2").textContent == "X"||
+    document.getElementById("cell3").textContent == "O" && document.getElementById("cell4").textContent == "O" && document.getElementById("cell5").textContent == "O" ||
+    document.getElementById("cell6").textContent == "O" && document.getElementById("cell7").textContent == "O" && document.getElementById("cell8").textContent == "O" ||
+    document.getElementById("cell0").textContent == "O" && document.getElementById("cell4").textContent == "O" && document.getElementById("cell8").textContent == "O" ||
+    document.getElementById("cell0").textContent == "O" && document.getElementById("cell3").textContent == "O" && document.getElementById("cell6").textContent == "O" ||
+    document.getElementById("cell1").textContent == "O" && document.getElementById("cell4").textContent == "O" && document.getElementById("cell7").textContent == "O" ||
+    document.getElementById("cell2").textContent == "O" && document.getElementById("cell5").textContent == "O" && document.getElementById("cell8").textContent == "O" ||
+    document.getElementById("cell2").textContent == "O" && document.getElementById("cell4").textContent == "O" && document.getElementById("cell6").textContent == "O") {
+        player2.win();
+        (player1.name == "") ? alert("Player2 Won!") : alert(player2.name + " Won!");
+        document.getElementById("player2ScoreLabel").textContent = `${player2.name} Score= ${player2.won}`;
+        matchOver();
+    }
+    else {
+        let tieChecker = 0;
+        const buttons = document.querySelectorAll("[class = gameButtons]");
+        buttons.forEach(button => {
+            (button.textContent != 0) ? tieChecker += 1 : "";
+        });
+        if (tieChecker == 9) {
+            alert("tie!");
+            matchOver()
+        }
 
+    }
+})
+
+const setNames = (() => {
+    if (player1.name == "" && document.getElementById("player1Text").value != "") {
+        player1.name = document.getElementById("player1Text").value;
+        document.getElementById("player1ScoreLabel").textContent = `${player1.name} Score= ${player1.won}`;
+        document.getElementById("player1Text").value = ""
+        document.getElementById("player1Text").disabled = true; 
+
+    }
+    if (player2.name == "" && document.getElementById("player2Text").value != "") {
+        player2.name = document.getElementById("player2Text").value;
+        document.getElementById("player2ScoreLabel").textContent = `${player2.name} Score= ${player2.won}`;
+        document.getElementById("player2Text").value = "";
+        document.getElementById("player2Text").disabled = true;
+    }
+})
+
+const matchOver = (() => {
+    const buttons = document.querySelectorAll("[class = gameButtons]");
+    buttons.forEach(button => {
+        button.disabled = true;
+    });
+    document.getElementById("player1Text").disabled = true;
+    document.getElementById("player2Text").disabled = true;
+    var rematch = window.confirm("Rematch?");
+    if (rematch) {rematchFunc()}
+    else {}
+    console.log(rematch)
+})
+
+const rematchFunc = (() => {
+    turn = 0;
+    const buttons = document.querySelectorAll("[class = gameButtons]");
+    buttons.forEach(button => {
+        button.disabled = false;
+        button.textContent = ""
+    });
+})
  
 </script>
